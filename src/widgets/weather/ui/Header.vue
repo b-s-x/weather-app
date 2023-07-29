@@ -4,7 +4,8 @@ import IconTimes from '@/shared/icons/Times.vue';
 import { Events } from './events';
 
 interface Props {
-  name: string,
+  name: string
+  country: string
   isSettingActive: boolean
 }
 
@@ -19,7 +20,7 @@ const handleSettingsClick = () => emit(Events.SettingClick);
 <template>
   <div class="header">
     <div>
-      {{ name }}
+      {{ `${name}, ${country}` }}
     </div>
     <button
       class="setting_btn btn_icon"
