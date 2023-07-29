@@ -1,8 +1,41 @@
+<script setup lang="ts">
+import { PropType } from 'vue';
+
+type Sizes = {
+  small: number
+  medium: number
+  big: number
+}
+
+enum Types {
+  Small = 'small',
+  Medium = 'medium',
+  Big = 'big',
+}
+
+const props = defineProps({
+  type: {
+    type: String as PropType<Types>,
+    default: Types.Small,
+    validator: (value: string) => Object.values(Types).includes(value as Types),
+  },
+});
+
+const sizes: Record<Types, number> = {
+  [Types.Small]: 20,
+  [Types.Medium]: 40,
+  [Types.Big]: 60,
+};
+
+const size: number = sizes[props.type || Types.Small];
+
+</script>
+
 <template>
   <svg
     class="spinner"
-    width="20"
-    height="20"
+    :width="size"
+    :height="size"
     viewBox="0 0 50 50"
     xmlns="http://www.w3.org/2000/svg"
   >

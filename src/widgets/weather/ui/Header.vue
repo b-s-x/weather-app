@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import IconSetting from '@/shared/icons/Setting.vue';
 import IconTimes from '@/shared/icons/Times.vue';
+import { Spinner } from '@/shared/components';
 import { Events } from './events';
 
 interface Props {
@@ -20,7 +21,10 @@ const handleSettingsClick = () => emit(Events.SettingClick);
 <template>
   <div class="header">
     <div>
-      {{ `${name}, ${country}` }}
+      <span v-if="name">
+        {{ `${name}, ${country}` }}
+      </span>
+      <Spinner v-else />
     </div>
     <button
       class="setting_btn btn_icon"
