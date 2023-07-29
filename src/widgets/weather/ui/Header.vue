@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import IconSetting from '../../../shared/icons/Setting.vue';
+import IconSetting from '@/shared/icons/Setting.vue';
 import { Events } from './events';
 
  defineProps({
-    city: {
+    name: {
       type: String,
       default: 'City',
     },
@@ -18,7 +18,7 @@ import { Events } from './events';
 <template>
   <div class="header">
     <div>
-      {{ city }}
+      {{ name }}
     </div>
     <button
       class="setting_btn btn_icon"

@@ -11,6 +11,7 @@ const handleSettingsClick = () => console.log('click');
 <template>
   <div class="weather">
     <Header
+      name="city"
       @settingClick="handleSettingsClick"
     />
   </div>
@@ -20,7 +21,8 @@ const handleSettingsClick = () => console.log('click');
 
 .weather {
   border: 1px solid black;
+  border-radius: 6px;
   width: 400px;
-  padding: .5rem;
+  padding: 1rem;
 }
 </style>
