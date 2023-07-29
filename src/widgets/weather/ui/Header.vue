@@ -1,17 +1,18 @@
 <script setup lang="ts">
 import IconSetting from '@/shared/icons/Setting.vue';
+import IconTimes from '@/shared/icons/Times.vue';
 import { Events } from './events';
 
- defineProps({
-    name: {
-      type: String,
-      default: 'City',
-    },
-  })
+interface Props {
+  name: string,
+  isSettingActive: boolean
+}
 
-  const emit = defineEmits<{ (e: Events.SettingClick): void }>();
+defineProps<Props>();
 
-  const handleSettingsClick = () => emit(Events.SettingClick);
+const emit = defineEmits<{ (e: Events.SettingClick): void }>();
+
+const handleSettingsClick = () => emit(Events.SettingClick);
 
 </script>
 
@@ -24,7 +25,14 @@ import { Events } from './events';
       class="setting_btn btn_icon"
       @click="handleSettingsClick"
     >
-      <IconSetting class="setting_icon" />
+      <IconTimes
+        v-if="isSettingActive"
+        class="setting_icon_times"
+      />
+      <IconSetting
+        v-else
+        class="setting_icon"
+      />
     </button>
   </div>
 </template>
@@ -40,16 +48,21 @@ import { Events } from './events';
 
 .setting {
   &_btn {
-    width: 35px;
+    height: 50px;
   }
 
   &_icon {
     fill: $color-black;
-    height: 100%;
-    width: 100%;
+    height: 30px;
+    width: 50px;
 
     &:hover {
       fill: rgba($color-black, .7);
+    }
+
+    &_times {
+      height: 40px;
+      width: 50px;
     }
   }
 }

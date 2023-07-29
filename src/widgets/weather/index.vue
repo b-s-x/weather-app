@@ -1,10 +1,14 @@
 <script setup lang="ts">
+import { ref } from 'vue';
+
 import Header from './ui/Header.vue';
 import Main from './ui/Main.vue';
 import Settings from './ui/Settings.vue';
 import Info from './ui/Info.vue';
 
-const handleSettingsClick = () => console.log('click');
+const isSettingActive = ref(false);
+
+const handleSettingsClick = () => isSettingActive.value = !isSettingActive.value;
 
 </script>
 
@@ -12,6 +16,7 @@ const handleSettingsClick = () => console.log('click');
   <div class="weather">
     <Header
       name="city"
+      :isSettingActive="isSettingActive"
       @settingClick="handleSettingsClick"
     />
   </div>
