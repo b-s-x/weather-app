@@ -19,6 +19,8 @@ const handleSettingsClick = () => isSettingActive.value = !isSettingActive.value
       :isSettingActive="isSettingActive"
       @settingClick="handleSettingsClick"
     />
+
+    <Info />
   </div>
 </template>
 
