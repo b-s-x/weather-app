@@ -51,8 +51,9 @@ export type WeatherData = {
   pressure?: number
   humidity?: number
   visibility?: number
-  degree?: number
+  temp?: number
   icon?: string
+  dew?: number
 }
 
 export type ParamsWeatherData = {

@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import IconPressure from '@/shared/icons/Pressure.vue';
 import IconNavigation from '@/shared/icons/Navigation.vue';
+import { Spinner } from '@/shared/components';
 
 interface Props {
-  sse?: string
-  pressure?: string
-  humidity?: string
-  dew?: string
-  visibility?: string
+  speed?: number
+  pressure?: number
+  humidity?: number
+  dew?: number
+  visibility?: number
 }
 
 defineProps<Props>();
@@ -18,11 +19,19 @@ defineProps<Props>();
   <div class="box">
     <div class="box_item">
       <IconNavigation class="icon" />
-      {{ `${sse || 0} SSE` }}
+      <span v-if="speed">
+        {{ `${speed || 0} m/s` }}
+      </span>
+
+      <Spinner v-else />
     </div>
     <div class="box_item">
       <IconPressure class="icon" />
-      {{ `${pressure || 0} hPa` }}
+      <span v-if="pressure">
+        {{ `${pressure || 0} hPa` }}
+      </span>
+
+      <Spinner v-else />
     </div>
   </div>
 
@@ -32,7 +41,11 @@ defineProps<Props>();
         Humidity:
       </div>
       <div>
-        {{ humidity || 0}}
+        <span v-if="humidity">
+          {{ humidity || 0}}
+        </span>
+
+        <Spinner v-else />
       </div>
     </div>
 
@@ -41,7 +54,11 @@ defineProps<Props>();
         Dew point:
       </div>
       <div>
-        {{ dew || 0}}
+        <span v-if="dew">
+          {{ dew || 0}}
+        </span>
+
+        <Spinner v-else />
       </div>
     </div>
   </div>
@@ -52,7 +69,11 @@ defineProps<Props>();
         Visibility:
       </div>
       <div>
-        {{ visibility || 0}}
+        <span v-if="visibility">
+          {{ visibility || 0}}
+        </span>
+
+        <Spinner v-else />
       </div>
     </div>
   </div>

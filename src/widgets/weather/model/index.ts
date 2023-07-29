@@ -1,5 +1,6 @@
 import { services } from "@/entities/Services";
 import { useCurrentGeoPosition } from '@/shared/hooks/index';
+import { useDewPoint } from "@/shared/hooks/useDewPoint";
 import type {
   WeatherDataResponse,
   WeatherData,
@@ -48,7 +49,8 @@ export class Weather {
       pressure: data?.main?.pressure,
       humidity: data?.main?.humidity,
       visibility: data?.visibility,
-      degree: data?.main?.temp,
+      dew: useDewPoint(data?.main?.temp, data?.main?.humidity),
+      temp: data?.main?.temp,
     }
   }
 }

@@ -29,7 +29,13 @@ onMounted(async () => {
       @settingClick="handleSettingsClick"
     />
 
-    <Info />
+    <Info
+      :dew="data.dew || 0"
+      :visibility="data.visibility || 0"
+      :humidity="data.humidity || 0"
+      :speed="data.windSpeed || 0"
+      :pressure="data.pressure || 0"
+    />
   </div>
 </template>
 
