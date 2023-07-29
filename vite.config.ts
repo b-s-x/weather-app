@@ -7,7 +7,7 @@ export default defineConfig({
   resolve:{
     alias:{
       '@': path.resolve(__dirname, './src'),
-      // '@common': path.resolve(__dirname, './src/styles/common.scss')
+      '@styles': path.resolve(__dirname, './src/styles/index.scss')
     },
   },
   plugins: [
