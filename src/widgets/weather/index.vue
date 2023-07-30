@@ -1,10 +1,8 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { Spinner } from '@/shared/components';
 import Header from './ui/Header.vue';
-import Main from './ui/Main.vue';
 import Settings from './ui/Settings.vue';
-import Info from './ui/Info.vue';
+import Main from './ui/Main.vue';
 import { Weather } from './model';
 import type { WeatherData } from './model/types';
 
@@ -25,35 +23,18 @@ onMounted(async () => {
 
 <template>
   <div class="weather">
-    <div v-if="!weather?.isFetchingWeather">
-      <Header
-        :name="data.city || ''"
-        :country="data.country || ''"
-        :isSettingActive="isSettingActive"
-        @settingClick="handleSettingsClick"
-      />
+    <Header
+      :name="data.city || ''"
+      :country="data.country || ''"
+      :isSettingActive="isSettingActive"
+      @settingClick="handleSettingsClick"
+    />
 
-      <Main
-        :term="data.temp || 0"
-        :description="data.description || ''"
-        :type="data.type || ''"
-      />
+    <Main
+      :data="data"
+      :isFetching="weather?.isFetchingWeather"
+    />
 
-      <Info
-        :dew="data.dew || 0"
-        :visibility="data.visibility || 0"
-        :humidity="data.humidity || 0"
-        :speed="data.windSpeed || 0"
-        :pressure="data.pressure || 0"
-      />
-    </div>
-
-    <div
-      class="container"
-      v-else
-    >
-      <Spinner type="big"  />
-    </div>
   </div>
 </template>
 

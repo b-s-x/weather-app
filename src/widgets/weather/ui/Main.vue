@@ -1,80 +1,41 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-import IconCloudy from '@/shared/icons/Cloudy.vue';
-import IconRainy from '@/shared/icons/Rainy.vue';
-import IconSunny from '@/shared/icons/Sunny.vue';
-import { useCapitalizeFirstLetter } from '@/shared/hooks';
+import { Spinner } from '@/shared/components';
+import Description from './Description.vue';
+import Info from './Info.vue';
+import type { WeatherData } from '../model/types';
 
 interface Props {
-  type: keyof Icons | string
-  term: number
-  description: string
+  data: WeatherData
+  isFetching: boolean
 }
 
-const props = defineProps<Props>();
-
-interface Icons {
-  Clouds: typeof IconCloudy;
-  Rains: typeof IconRainy;
-  Clear: typeof IconSunny;
-}
-
-const icons: Icons = {
-  Clouds: IconCloudy,
-  Rains: IconRainy,
-  Clear: IconSunny,
-};
-
-const icon = computed(() => {
-  if (props?.type in icons) {
-    return icons[props?.type as keyof Icons];
-  } else {
-    return '';
-  }
-});
-
+defineProps<Props>();
 </script>
 
 <template>
-  <div>
-    <div class="box">
-      <div class="icon_container">
-        <component :is="icon" class="icon" />
-      </div>
-      <div class="term">
-        {{ `${term ? term?.toFixed(0) : '-'}°C`}}
-      </div>
-    </div>
+  <div v-if="!isFetching">
+    <Description
+      :term="data.temp || 0"
+      :description="data.description || ''"
+      :type="data.type || ''"
+    />
 
-    <div class="description">
-      {{ useCapitalizeFirstLetter(description) }}
-    </div>
+    <Info
+      :dew="data.dew || 0"
+      :visibility="data.visibility || 0"
+      :humidity="data.humidity || 0"
+      :speed="data.windSpeed || 0"
+      :pressure="data.pressure || 0"
+    />
+  </div>
+
+  <div
+    class="container"
+    v-else
+  >
+    <Spinner type="big"  />
   </div>
 </template>
 
 <style lang="scss" scoped>
-.icon {
-  width: 100%;
-  height: 100%;
-
-  &_container {
-    width: 120px;
-    height: 120px;
-  }
-}
-
-.box {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.term {
-  margin-left: 16px;
-  font-size: 54px;
-}
-
-.description {
-  padding: 30px 0;
-}
 </style>
