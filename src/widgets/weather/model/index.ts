@@ -5,23 +5,27 @@ import type {
   WeatherDataResponse,
   WeatherData,
   ParamsWeatherData,
+  SelectedCity,
 } from "./types";
 
 export class Weather {
   public isFetchingWeather: boolean
   public data: WeatherData
+  public selectedCities: SelectedCity[]
 
   constructor () {
     this.isFetchingWeather = true;
     this.data = {};
+    this.selectedCities = []
   }
 
   async getParams () {
     const { latitude, longitude } = await useCurrentGeoPosition();
 
     const params: ParamsWeatherData = {
-      lat: latitude,
-      lon: longitude,
+      // lat: latitude,
+      // lon: longitude,
+      id: 4930956
     }
 
     return params;
@@ -51,6 +55,7 @@ export class Weather {
       visibility: data?.visibility,
       dew: useDewPoint(data?.main?.temp, data?.main?.humidity),
       temp: data?.main?.temp,
+      id: data?.id,
     }
   }
 }

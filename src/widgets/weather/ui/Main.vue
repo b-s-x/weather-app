@@ -36,6 +36,3 @@ defineProps<Props>();
     <Spinner :type="SpinnerTypes.Big"  />
   </div>
 </template>
-
-<style lang="scss" scoped>
-</style>

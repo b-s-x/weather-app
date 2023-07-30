@@ -54,10 +54,18 @@ export type WeatherData = {
   temp?: number
   type?: string
   dew?: number
+  id?: number
 }
 
 export type ParamsWeatherData = {
   q?: string
   lat?: number
   lon?: number
+  id?: number
+};
+
+export type SelectedCity = {
+  id: number
+  city: string,
+  country: string,
 };

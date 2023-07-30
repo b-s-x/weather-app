@@ -61,7 +61,7 @@ const handleSettingsClick = () => emit(Events.SettingClick);
     width: 50px;
 
     &:hover {
-      fill: rgba($color-black, .7);
+      fill: $color-black-hover;
     }
 
     &_times {

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue';
 import Header from './ui/Header.vue';
-import Settings from './ui/Settings.vue';
+import Settings from './ui/Settings/index.vue';
 import Main from './ui/Main.vue';
 import { Weather } from './model';
 import type { WeatherData } from './model/types';
@@ -44,12 +44,11 @@ const headerName = computed(() => useHeaderName(isSettingActive.value, data.valu
 </template>
 
 <style lang="scss" scoped>
-
 .weather {
   border: 1px solid black;
   border-radius: 6px;
   width: 400px;
-  height: 350px;
+  height: 360px;
   padding: 1rem;
 }
 
