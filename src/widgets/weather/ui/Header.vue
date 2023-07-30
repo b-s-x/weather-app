@@ -6,7 +6,6 @@ import { Events } from './events';
 
 interface Props {
   name: string
-  country: string
   isSettingActive: boolean
 }
 
@@ -22,7 +21,7 @@ const handleSettingsClick = () => emit(Events.SettingClick);
   <div class="header">
     <div>
       <span v-if="name">
-        {{ `${name}, ${country}` }}
+        {{ name }}
       </span>
       <Spinner v-else />
     </div>

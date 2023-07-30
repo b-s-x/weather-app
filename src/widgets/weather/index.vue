@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import Header from './ui/Header.vue';
 import Settings from './ui/Settings.vue';
 import Main from './ui/Main.vue';
 import { Weather } from './model';
 import type { WeatherData } from './model/types';
+import { useHeaderName } from './model/hooks/index';
 
 const weather = ref(new Weather());
-const isSettingActive = ref(false);
+const isSettingActive = ref(true);
 const data = ref<WeatherData>({});
 
 const handleSettingsClick = () => isSettingActive.value = !isSettingActive.value;
@@ -16,16 +17,16 @@ onMounted(async () => {
   await weather.value.getData();
   data.value = weather.value.data;
   console.log(data.value);
-  console.log(1, data.value.type);
 });
+
+const headerName = computed(() => useHeaderName(isSettingActive.value, data.value.city, data.value.country))
 
 </script>
 
 <template>
   <div class="weather">
     <Header
-      :name="data.city || ''"
-      :country="data.country || ''"
+      :name="headerName || ''"
       :isSettingActive="isSettingActive"
       @settingClick="handleSettingsClick"
     />

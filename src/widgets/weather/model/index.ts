@@ -1,6 +1,6 @@
 import { services } from "@/entities/Services";
 import { useCurrentGeoPosition } from '@/shared/hooks/index';
-import { useDewPoint } from "@/widgets/weather/model/useDewPoint";
+import { useDewPoint } from "@/widgets/weather/model/hooks/index";
 import type {
   WeatherDataResponse,
   WeatherData,
