@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import { computed } from 'vue';
 import IconPressure from '@/shared/icons/Pressure.vue';
 import IconNavigation from '@/shared/icons/Navigation.vue';
-import { Spinner } from '@/shared/components';
 
 interface Props {
   speed?: number
@@ -11,7 +11,17 @@ interface Props {
   visibility?: number
 }
 
-defineProps<Props>();
+const props = defineProps<Props>();
+
+const getVisibility = (visibility: number | undefined) => {
+  if (visibility) {
+    return (visibility / 1000).toFixed(1);
+  }
+
+  return 0;
+}
+
+const visibilityValue = computed(() => getVisibility(props.visibility));
 
 </script>
 
@@ -19,19 +29,11 @@ defineProps<Props>();
   <div class="box">
     <div class="box_item">
       <IconNavigation class="icon" />
-      <span v-if="speed">
         {{ `${speed || 0} m/s` }}
-      </span>
-
-      <Spinner v-else />
     </div>
     <div class="box_item">
       <IconPressure class="icon" />
-      <span v-if="pressure">
-        {{ `${pressure || 0} hPa` }}
-      </span>
-
-      <Spinner v-else />
+      {{ `${pressure || 0} hPa` }}
     </div>
   </div>
 
@@ -41,11 +43,7 @@ defineProps<Props>();
         Humidity:
       </div>
       <div>
-        <span v-if="humidity">
-          {{ humidity || 0}}
-        </span>
-
-        <Spinner v-else />
+        {{ `${humidity || 0}%`}}
       </div>
     </div>
 
@@ -54,11 +52,7 @@ defineProps<Props>();
         Dew point:
       </div>
       <div>
-        <span v-if="dew">
-          {{ dew || 0}}
-        </span>
-
-        <Spinner v-else />
+        {{ `${dew || 0}°C`}}
       </div>
     </div>
   </div>
@@ -69,11 +63,7 @@ defineProps<Props>();
         Visibility:
       </div>
       <div>
-        <span v-if="visibility">
-          {{ visibility || 0}}
-        </span>
-
-        <Spinner v-else />
+        {{ `${visibilityValue}km`}}
       </div>
     </div>
   </div>

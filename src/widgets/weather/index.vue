@@ -31,10 +31,14 @@ onMounted(async () => {
     />
 
     <Main
+      v-if="!isSettingActive"
       :data="data"
       :isFetching="weather?.isFetchingWeather"
     />
 
+    <Settings
+      v-else
+    />
   </div>
 </template>
 

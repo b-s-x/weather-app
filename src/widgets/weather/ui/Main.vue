@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Spinner } from '@/shared/components';
+import { Spinner, SpinnerTypes } from '@/shared/components';
 import Description from './Description.vue';
 import Info from './Info.vue';
 import type { WeatherData } from '../model/types';
@@ -33,7 +33,7 @@ defineProps<Props>();
     class="container"
     v-else
   >
-    <Spinner type="big"  />
+    <Spinner :type="SpinnerTypes.Big"  />
   </div>
 </template>
 
