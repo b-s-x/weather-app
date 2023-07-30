@@ -38,7 +38,7 @@ const icon = computed(() => {
 <template>
   <div>
     <div class="box">
-      <div class="icon_container">
+      <div class="icon_container" v-if="icon">
         <component :is="icon" class="icon" />
       </div>
       <div class="term">

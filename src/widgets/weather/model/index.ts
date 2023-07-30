@@ -82,6 +82,7 @@ export class Weather {
 
   public deleteSelectedCity (deleteId: number) {
     this.selectedCities = this.selectedCities.filter(({ id }) => id !== deleteId);
+    this.setInLocalStorageSelectedCity();
   }
 
   public addSelectedCity (data: SelectedCity) {
