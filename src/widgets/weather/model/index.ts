@@ -16,7 +16,18 @@ export class Weather {
   constructor () {
     this.isFetchingWeather = true;
     this.data = {};
-    this.selectedCities = []
+    this.selectedCities = [
+      {
+        id: 1,
+        city: 'fff',
+        country: 'GE',
+      },
+      {
+        id: 2,
+        city: 'aaa',
+        country: 'GE',
+      },
+    ]
   }
 
   async getParams () {
@@ -57,6 +68,14 @@ export class Weather {
       temp: data?.main?.temp,
       id: data?.id,
     }
+  }
+
+  changeSelectedCities (values: SelectedCity[]) {
+    this.selectedCities = values
+  }
+
+  deleteSelectedCity (deleteId: number) {
+    this.selectedCities = this.selectedCities.filter(({ id }) => id !== deleteId);
   }
 }
 

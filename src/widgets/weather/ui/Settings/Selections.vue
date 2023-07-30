@@ -8,11 +8,14 @@ interface Props {
   selected: SelectedCity[],
 }
 defineProps<Props>();
-const emit = defineEmits<{ (e: Events.UpdateSelectedCity, newItems: SelectedCity[]): void }>();
+const emit = defineEmits<{
+  (e: Events.UpdateSelectedCity, newItems: SelectedCity[]): void,
+  (e: Events.DeleteSelectedCity, value: number): void,
+}>();
 
 const dragOptions = { animation: 200 };
 
-const handleDelete = (value: any) => console.log(222, value);
+const handleDelete = (id: number) => emit(Events.DeleteSelectedCity, id);
 const updateSelected = (newSelected: SelectedCity[]) => emit(Events.UpdateSelectedCity, newSelected);
 </script>
 
@@ -24,20 +27,14 @@ const updateSelected = (newSelected: SelectedCity[]) => emit(Events.UpdateSelect
       itemKey="drag"
       @update:modelValue="updateSelected"
     >
-      <template
-        v-for="({ id, city, country }, index) of selected"
-        :key="id"
-        v-slot:item="{ element }"
-      >
-        <div :key="element.id">
-          <Item
-            class="item"
-            :id="element.id"
-            :city="element.city"
-            :country="element.country"
-            @deleteSelected="handleDelete"
-          />
-        </div>
+      <template v-slot:item="{ element }">
+        <Item
+          class="item"
+          :id="element.id"
+          :city="element.city"
+          :country="element.country"
+          @deleteSelected="() => handleDelete(element.id)"
+        />
       </template>
     </draggable>
   </div>

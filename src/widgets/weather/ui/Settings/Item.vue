@@ -10,9 +10,9 @@ interface Props {
 }
 
 const props = defineProps<Props>()
-const emit = defineEmits<{ (e: Events.DeleteSelectedCity, value: number): void }>();
+const emit = defineEmits<{ (e: Events.DeleteSelectedCity): void }>();
 
-const handleDeleteItem = () => emit(Events.DeleteSelectedCity, props.id)
+const handleDeleteItem = () => emit(Events.DeleteSelectedCity)
 
 </script>
 

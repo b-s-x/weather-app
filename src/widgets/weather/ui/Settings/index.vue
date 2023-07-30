@@ -9,9 +9,14 @@ interface Props {
 }
 defineProps<Props>();
 
-const emit = defineEmits<{ (e: Events.UpdateSelectedCity, newItems: SelectedCity[]): void }>();
+const emit = defineEmits<{
+  (e: Events.UpdateSelectedCity, newItems: SelectedCity[]): void,
+  (e: Events.DeleteSelectedCity, value: number): void,
+}>();
 
 const handleChangeSelected = (values: SelectedCity[]) => emit(Events.UpdateSelectedCity, values);
+const handleDeleteSelected = (id: number) => emit(Events.DeleteSelectedCity, id);
+
 </script>
 
 <template>
@@ -19,6 +24,7 @@ const handleChangeSelected = (values: SelectedCity[]) => emit(Events.UpdateSelec
     <Selections
       :selected="selected"
       @updateSelected="handleChangeSelected"
+      @deleteSelected="handleDeleteSelected"
     />
   </div>
 </template>

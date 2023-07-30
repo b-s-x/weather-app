@@ -21,24 +21,8 @@ onMounted(async () => {
 
 const headerName = computed(() => useHeaderName(isSettingActive.value, data.value.city, data.value.country))
 
-let mock = [
-  {
-    id: 1,
-    city: 'fff',
-    country: 'GE',
-  },
-  {
-    id: 2,
-    city: 'aaa',
-    country: 'GE',
-  },
-]
-
-const selected = ref(mock)
-const handleChangeSelected = (values: SelectedCity[]) => {
-  selected.value = values
-};
-
+const handleChangeSelected = (values: SelectedCity[]) => weather.value.changeSelectedCities(values);
+const handleDeleteSelected = (id: number) => weather.value.deleteSelectedCity(id);
 </script>
 
 <template>
@@ -57,8 +41,9 @@ const handleChangeSelected = (values: SelectedCity[]) => {
 
     <Settings
       v-else
-      :selected="selected "
+      :selected="weather.selectedCities"
       @updateSelected="handleChangeSelected"
+      @deleteSelected="handleDeleteSelected"
     />
   </div>
 </template>
