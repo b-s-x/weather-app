@@ -8,8 +8,10 @@
     "build": "vue-tsc --noEmit && vite build"
   },
   "dependencies": {
+    "@types/vue": "^2.0.0",
     "axios": "^1.4.0",
-    "vue": "^3.3.4"
+    "vue": "^3.3.4",
+    "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
     "@types/node": "^20.4.5",
