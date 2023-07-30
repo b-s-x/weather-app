@@ -10,12 +10,16 @@ import type {
 
 export class Weather {
   public isFetchingWeather: boolean
+  public isFindingCityWeather: boolean
   public data: WeatherData
   public selectedCities: SelectedCity[]
+  public isNotFind: boolean
 
   constructor () {
     this.isFetchingWeather = true;
     this.data = {};
+    this.isNotFind = false;
+    this.isFindingCityWeather = false;
     this.selectedCities = [
       {
         id: 1,
@@ -76,6 +80,46 @@ export class Weather {
 
   deleteSelectedCity (deleteId: number) {
     this.selectedCities = this.selectedCities.filter(({ id }) => id !== deleteId);
+  }
+
+  addSelectedCity (data: SelectedCity) {
+    this.selectedCities = [
+      ...this.selectedCities,
+      data,
+    ];
+  }
+
+  async findCity (city: string) {
+    if (!city) {
+      return;
+    }
+    this.resetIsNotFind();
+    try {
+      this.isFindingCityWeather = true;
+      const { data } = await services.openweather.getWeather({ q: city });
+      console.log('data', data);
+      this.parseData(data);
+      this.addToSelected(data);
+    } catch(err) {
+      this.isNotFind = true;
+      console.error(err);
+    } finally {
+      this.isFindingCityWeather = false;
+    }
+  }
+
+  resetIsNotFind () {
+    this.isNotFind = false;
+  }
+
+  addToSelected (data: WeatherDataResponse) {
+    const value: SelectedCity = {
+      city: data?.name,
+      country: data?.sys?.country,
+      id: data?.id,
+    }
+
+    this.addSelectedCity(value);
   }
 }
 

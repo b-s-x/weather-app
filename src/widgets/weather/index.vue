@@ -23,6 +23,8 @@ const headerName = computed(() => useHeaderName(isSettingActive.value, data.valu
 
 const handleChangeSelected = (values: SelectedCity[]) => weather.value.changeSelectedCities(values);
 const handleDeleteSelected = (id: number) => weather.value.deleteSelectedCity(id);
+const handleInputCity = (city: string) => weather.value.findCity(city);
+const handleResetError = () => weather.value.resetIsNotFind();
 </script>
 
 <template>
@@ -41,9 +43,13 @@ const handleDeleteSelected = (id: number) => weather.value.deleteSelectedCity(id
 
     <Settings
       v-else
+      :isNotFind="weather?.isNotFind"
+      :isFindingCityWeather="weather.isFindingCityWeather"
       :selected="weather.selectedCities"
       @updateSelected="handleChangeSelected"
       @deleteSelected="handleDeleteSelected"
+      @inputCity="handleInputCity"
+      @resetErrorFindCity="handleResetError"
     />
   </div>
 </template>
