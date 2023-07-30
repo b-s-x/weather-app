@@ -36,7 +36,8 @@ const updateSelected = (newSelected: SelectedCity[]) => {
     >
       <template
         v-for="({ id, city, country }, index) of selected"
-        :key="id" v-slot:item="{ element }"
+        :key="id"
+        v-slot:item="{ element }"
       >
         <div :key="element.id">
           <Item
