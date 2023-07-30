@@ -45,3 +45,4 @@ const updateSelected = (newSelected: SelectedCity[]) => emit(Events.UpdateSelect
   margin-bottom: 8px;
 }
 </style>
+
