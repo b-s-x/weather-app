@@ -1,26 +1,24 @@
 <script setup lang="ts">
+import { SelectedCity } from '@/widgets/weather/model/types';
 import Add from './Add.vue';
 import Selections from './Selections.vue';
+import { Events } from '../events';
 
-const mock = [
-  {
-    id: 1,
-    city: 'fff',
-    country: 'GE',
-  },
-  {
-    id: 2,
-    city: 'aaa',
-    country: 'GE',
-  },
-]
+interface Props {
+  selected: SelectedCity[],
+}
+defineProps<Props>();
 
+const emit = defineEmits<{ (e: Events.UpdateSelectedCity, newItems: SelectedCity[]): void }>();
+
+const handleChangeSelected = (values: SelectedCity[]) => emit(Events.UpdateSelectedCity, values);
 </script>
 
 <template>
   <div>
     <Selections
-      :selected="mock"
+      :selected="selected"
+      @updateSelected="handleChangeSelected"
     />
   </div>
 </template>

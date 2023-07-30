@@ -1,35 +1,25 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import draggable from 'vuedraggable';
 import { SelectedCity } from '@/widgets/weather/model/types';
 import Item from './Item.vue';
+import { Events } from '../events';
 
-const props = defineProps();
-const selected = ref<SelectedCity[]>([
-  {
-    id: 1,
-    city: 'fff',
-    country: 'GE',
-  },
-  {
-    id: 2,
-    city: 'aaa',
-    country: 'GE',
-  },
-]);
+interface Props {
+  selected: SelectedCity[],
+}
+defineProps<Props>();
+const emit = defineEmits<{ (e: Events.UpdateSelectedCity, newItems: SelectedCity[]): void }>();
 
-const handleDelete = (value: any) => console.log(222, value);
 const dragOptions = { animation: 200 };
 
-const updateSelected = (newSelected: SelectedCity[]) => {
-  selected.value = newSelected;
-};
+const handleDelete = (value: any) => console.log(222, value);
+const updateSelected = (newSelected: SelectedCity[]) => emit(Events.UpdateSelectedCity, newSelected);
 </script>
 
 <template>
   <div>
     <draggable
-      v-model="selected"
+      :modelValue="selected"
       :options="dragOptions"
       itemKey="drag"
       @update:modelValue="updateSelected"

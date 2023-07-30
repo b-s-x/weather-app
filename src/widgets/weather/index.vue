@@ -4,7 +4,7 @@ import Header from './ui/Header.vue';
 import Settings from './ui/Settings/index.vue';
 import Main from './ui/Main.vue';
 import { Weather } from './model';
-import type { WeatherData } from './model/types';
+import type { WeatherData, SelectedCity } from './model/types';
 import { useHeaderName } from './model/hooks/index';
 
 const weather = ref(new Weather());
@@ -20,6 +20,24 @@ onMounted(async () => {
 });
 
 const headerName = computed(() => useHeaderName(isSettingActive.value, data.value.city, data.value.country))
+
+let mock = [
+  {
+    id: 1,
+    city: 'fff',
+    country: 'GE',
+  },
+  {
+    id: 2,
+    city: 'aaa',
+    country: 'GE',
+  },
+]
+
+const selected = ref(mock)
+const handleChangeSelected = (values: SelectedCity[]) => {
+  selected.value = values
+};
 
 </script>
 
@@ -39,6 +57,8 @@ const headerName = computed(() => useHeaderName(isSettingActive.value, data.valu
 
     <Settings
       v-else
+      :selected="selected "
+      @updateSelected="handleChangeSelected"
     />
   </div>
 </template>

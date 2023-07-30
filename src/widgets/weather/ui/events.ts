@@ -1,4 +1,5 @@
 export enum Events {
   SettingClick = 'settingClick',
-  DeleteSelectedCity = 'deleteSelected'
+  DeleteSelectedCity = 'deleteSelected',
+  UpdateSelectedCity = 'updateSelected',
 }
