@@ -8,20 +8,27 @@ import type { WeatherData, SelectedCity } from './model/types';
 import { useHeaderName } from './model/hooks/index';
 
 const weather = ref(new Weather());
-const isSettingActive = ref(true);
-const data = ref<WeatherData>({});
+const isSettingActive = ref(false);
+const data = ref<WeatherData>(weather.value.data);
 
 const handleSettingsClick = () => isSettingActive.value = !isSettingActive.value;
 
-onMounted(async () => {
+const fetchData = async () => {
   await weather.value.getData();
   data.value = weather.value.data;
-  console.log(data.value);
+}
+
+onMounted(async () => {
+  weather.value.checkLocalStorage();
+  await fetchData();
 });
 
 const headerName = computed(() => useHeaderName(isSettingActive.value, data.value.city, data.value.country))
 
-const handleChangeSelected = (values: SelectedCity[]) => weather.value.changeSelectedCities(values);
+const handleChangeSelected = async (values: SelectedCity[]) => {
+  weather.value.changeSelectedCities(values);
+  await fetchData()
+};
 const handleDeleteSelected = (id: number) => weather.value.deleteSelectedCity(id);
 const handleInputCity = (city: string) => weather.value.findCity(city);
 const handleResetError = () => weather.value.resetIsNotFind();

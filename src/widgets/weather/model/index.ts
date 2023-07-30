@@ -1,12 +1,15 @@
 import { services } from "@/entities/Services";
 import { useCurrentGeoPosition } from '@/shared/hooks/index';
 import { useDewPoint } from "@/widgets/weather/model/hooks/index";
+import { LocalStorageManager } from "@/entities/LocalStorageManager/index";
 import type {
   WeatherDataResponse,
   WeatherData,
-  ParamsWeatherData,
   SelectedCity,
 } from "./types";
+
+const KEY_SELECTED = 'SELECTED';
+const DEFAULT_ID = 4930956;
 
 export class Weather {
   public isFetchingWeather: boolean
@@ -14,39 +17,37 @@ export class Weather {
   public data: WeatherData
   public selectedCities: SelectedCity[]
   public isNotFind: boolean
+  private localStorageManager: LocalStorageManager
 
   constructor () {
     this.isFetchingWeather = true;
     this.data = {};
     this.isNotFind = false;
     this.isFindingCityWeather = false;
-    this.selectedCities = [
-      {
-        id: 1,
-        city: 'fff',
-        country: 'GE',
-      },
-      {
-        id: 2,
-        city: 'aaa',
-        country: 'GE',
-      },
-    ]
+    this.localStorageManager = new LocalStorageManager();
+    this.selectedCities = [];
   }
 
   async getParams () {
-    const { latitude, longitude } = await useCurrentGeoPosition();
-
-    const params: ParamsWeatherData = {
-      // lat: latitude,
-      // lon: longitude,
-      id: 4930956
+    if (this.selectedCities.length > 0) {
+      return {
+        id: this.selectedCities[0]?.id,
+      }
     }
 
-    return params;
+    const { latitude, longitude } = await useCurrentGeoPosition();
+
+    if (latitude && longitude) {
+      return {
+        lat: latitude,
+        lon: longitude,
+      }
+    }
+
+    return { id: DEFAULT_ID };
   }
 
-  async getData() {
+  public async getData() {
     const params = await this.getParams();
     try {
       this.isFetchingWeather = true;
@@ -74,22 +75,23 @@ export class Weather {
     }
   }
 
-  changeSelectedCities (values: SelectedCity[]) {
-    this.selectedCities = values
+  public changeSelectedCities (values: SelectedCity[]) {
+    this.selectedCities = values;
+    this.setInLocalStorageSelectedCity();
   }
 
-  deleteSelectedCity (deleteId: number) {
+  public deleteSelectedCity (deleteId: number) {
     this.selectedCities = this.selectedCities.filter(({ id }) => id !== deleteId);
   }
 
-  addSelectedCity (data: SelectedCity) {
+  public addSelectedCity (data: SelectedCity) {
     this.selectedCities = [
       ...this.selectedCities,
       data,
     ];
   }
 
-  async findCity (city: string) {
+  public async findCity (city: string) {
     if (!city) {
       return;
     }
@@ -97,7 +99,6 @@ export class Weather {
     try {
       this.isFindingCityWeather = true;
       const { data } = await services.openweather.getWeather({ q: city });
-      console.log('data', data);
       this.parseData(data);
       this.addToSelected(data);
     } catch(err) {
@@ -112,7 +113,7 @@ export class Weather {
     this.isNotFind = false;
   }
 
-  addToSelected (data: WeatherDataResponse) {
+  public addToSelected (data: WeatherDataResponse) {
     const value: SelectedCity = {
       city: data?.name,
       country: data?.sys?.country,
@@ -120,6 +121,48 @@ export class Weather {
     }
 
     this.addSelectedCity(value);
+    this.setInLocalStorageSelectedCity();
+  }
+
+  public checkLocalStorage() {
+    this.parseFromLocalStorageSelectedCity()
+  }
+
+  setInLocalStorageSelectedCity () {
+    this.localStorageManager.set(KEY_SELECTED, this.selectedCities)
+  }
+
+  parseFromLocalStorageSelectedCity () {
+    const data = this.localStorageManager.get(KEY_SELECTED);
+    const status = this.checkValidationData(data);
+
+    if (status) {
+      this.selectedCities = data;
+    }
+  }
+
+  checkValidationData (data: SelectedCity) {
+    if (!Array.isArray(data)) {
+      return false;
+    }
+
+    if (data.length > 0) {
+      const item = data[0];
+
+      if (!('id' in item)) {
+        return false;
+      }
+
+      if (!('city' in item)) {
+        return false;
+      }
+
+      if (!('country' in item)) {
+        return false;
+      }
+    }
+
+    return true;
   }
 }
 
