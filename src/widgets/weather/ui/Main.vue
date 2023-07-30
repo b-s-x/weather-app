@@ -16,13 +16,13 @@ const props = defineProps<Props>();
 interface Icons {
   Clouds: typeof IconCloudy;
   Rains: typeof IconRainy;
-  Sunny: typeof IconSunny;
+  Clear: typeof IconSunny;
 }
 
 const icons: Icons = {
   Clouds: IconCloudy,
   Rains: IconRainy,
-  Sunny: IconSunny,
+  Clear: IconSunny,
 };
 
 const icon = computed(() => {
