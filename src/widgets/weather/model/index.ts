@@ -1,6 +1,6 @@
 import { services } from "@/entities/Services";
 import { useCurrentGeoPosition } from '@/shared/hooks/index';
-import { useDewPoint } from "@/shared/hooks/useDewPoint";
+import { useDewPoint } from "@/widgets/weather/model/useDewPoint";
 import type {
   WeatherDataResponse,
   WeatherData,
@@ -12,7 +12,7 @@ export class Weather {
   public data: WeatherData
 
   constructor () {
-    this.isFetchingWeather = false;
+    this.isFetchingWeather = true;
     this.data = {};
   }
 
@@ -44,7 +44,7 @@ export class Weather {
       city: data?.name,
       country: data?.sys?.country,
       description: data?.weather[0]?.description,
-      icon: data?.weather[0]?.icon,
+      type: data?.weather[0]?.main,
       windSpeed: data?.wind?.speed,
       pressure: data?.main?.pressure,
       humidity: data?.main?.humidity,

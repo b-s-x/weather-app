@@ -1,12 +1,80 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+import IconCloudy from '@/shared/icons/Cloudy.vue';
+import IconRainy from '@/shared/icons/Rainy.vue';
+import IconSunny from '@/shared/icons/Sunny.vue';
+import { useCapitalizeFirstLetter } from '@/shared/hooks';
+
+interface Props {
+  type: keyof Icons | string
+  term: number
+  description: string
+}
+
+const props = defineProps<Props>();
+
+interface Icons {
+  Clouds: typeof IconCloudy;
+  Rains: typeof IconRainy;
+  Sunny: typeof IconSunny;
+}
+
+const icons: Icons = {
+  Clouds: IconCloudy,
+  Rains: IconRainy,
+  Sunny: IconSunny,
+};
+
+const icon = computed(() => {
+  if (props?.type in icons) {
+    return icons[props?.type as keyof Icons];
+  } else {
+    return '';
+  }
+});
 
 </script>
 
 <template>
   <div>
-    Main
+    <div class="box">
+      <div class="icon_container">
+        <component :is="icon" class="icon" />
+      </div>
+      <div class="term">
+        {{ `${term ? term?.toFixed(0) : '-'}°C`}}
+      </div>
+    </div>
+
+    <div class="description">
+      {{ useCapitalizeFirstLetter(description) }}
+    </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
+.icon {
+  width: 100%;
+  height: 100%;
+
+  &_container {
+    width: 120px;
+    height: 120px;
+  }
+}
+
+.box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.term {
+  margin-left: 16px;
+  font-size: 54px;
+}
+
+.description {
+  padding: 30px 0;
+}
 </style>

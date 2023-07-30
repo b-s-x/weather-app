@@ -52,7 +52,7 @@ export type WeatherData = {
   humidity?: number
   visibility?: number
   temp?: number
-  icon?: string
+  type?: string
   dew?: number
 }
 
