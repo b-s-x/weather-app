@@ -11,7 +11,7 @@ export class OpenWeatherService {
   }
 
   getWeather(params?: ParamsWeatherData) {
-    const key = '5c853db7cbe36938d17ff8078d21ff3e';
+    const key = import.meta.env.VITE_OPENWEATHER_KEY;
     const url = `${BASE_URL}/weather?appid=${key}&units=metric`;
     return this.api.get(url, { params });
   }
