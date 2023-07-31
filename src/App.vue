@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import Weather from '@/widgets/weather/index.vue';
+
 </script>
 
 <template>
-  111111
+  <Weather />
 </template>
 
 <style>

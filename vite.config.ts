@@ -6,8 +6,8 @@ import path from 'path'
 export default defineConfig({
   resolve:{
     alias:{
-      // '@' : path.resolve(__dirname, './src'),
-      // '@common': path.resolve(__dirname, './src/styles/common.scss')
+      '@': path.resolve(__dirname, './src'),
+      '@styles': path.resolve(__dirname, './src/shared/styles/index.scss')
     },
   },
   plugins: [
