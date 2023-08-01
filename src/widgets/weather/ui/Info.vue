@@ -29,11 +29,11 @@ const visibilityValue = computed(() => getVisibility(props.visibility));
   <div class="box">
     <div class="box_item">
       <IconNavigation class="icon" />
-        {{ `${speed || 0} m/s` }}
+        {{ `${props.speed || 0} m/s` }}
     </div>
     <div class="box_item">
       <IconPressure class="icon" />
-      {{ `${pressure || 0} hPa` }}
+      {{ `${props.pressure || 0} hPa` }}
     </div>
   </div>
 
@@ -43,7 +43,7 @@ const visibilityValue = computed(() => getVisibility(props.visibility));
         Humidity:
       </div>
       <div>
-        {{ `${humidity || 0}%`}}
+        {{ `${props.humidity || 0}%`}}
       </div>
     </div>
 
@@ -52,7 +52,7 @@ const visibilityValue = computed(() => getVisibility(props.visibility));
         Dew point:
       </div>
       <div>
-        {{ `${dew || 0}°C`}}
+        {{ `${props.dew || 0}°C`}}
       </div>
     </div>
   </div>

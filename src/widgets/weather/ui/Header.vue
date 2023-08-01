@@ -9,7 +9,7 @@ interface Props {
   isSettingActive: boolean
 }
 
-defineProps<Props>();
+const props = defineProps<Props>();
 
 const emit = defineEmits<{ (e: Events.SettingClick): void }>();
 
@@ -21,7 +21,7 @@ const handleSettingsClick = () => emit(Events.SettingClick);
   <div class="header">
     <div>
       <span v-if="name">
-        {{ name }}
+        {{ props.name }}
       </span>
       <Spinner v-else />
     </div>
@@ -30,7 +30,7 @@ const handleSettingsClick = () => emit(Events.SettingClick);
       @click="handleSettingsClick"
     >
       <IconTimes
-        v-if="isSettingActive"
+        v-if="props.isSettingActive"
         class="setting_icon_times"
       />
       <IconSetting

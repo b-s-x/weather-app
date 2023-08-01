@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { SelectedCity } from '@/widgets/weather/model/types';
+import { SelectedCity } from '@/widgets/weather/types';
 import Add from './Add.vue';
 import Selections from './Selections.vue';
 import { Events } from '../events';
@@ -9,7 +9,7 @@ interface Props {
   isNotFind: boolean
   isFindingCityWeather: boolean
 }
-defineProps<Props>();
+const props = defineProps<Props>();
 
 const emit = defineEmits<{
   (e: Events.UpdateSelectedCity, newItems: SelectedCity[]): void,
@@ -27,8 +27,8 @@ const handleResetError = () => emit(Events.ResetErrorFindCity);
 <template>
   <div>
     <Selections
-      v-if="selected.length > 0"
-      :selected="selected"
+      v-if="props.selected.length > 0"
+      :selected="props.selected"
       @updateSelected="handleChangeSelected"
       @deleteSelected="handleDeleteSelected"
     />
@@ -38,8 +38,8 @@ const handleResetError = () => emit(Events.ResetErrorFindCity);
     </div>
 
     <Add
-      :isNotFind="isNotFind"
-      :isFindingCityWeather="isFindingCityWeather"
+      :isNotFind="props.isNotFind"
+      :isFindingCityWeather="props.isFindingCityWeather"
       @inputCity="handleInput"
       @resetErrorFindCity="handleResetError"
     />
