@@ -3,7 +3,7 @@ import { computed } from 'vue';
 import IconCloudy from '@/shared/icons/Cloudy.vue';
 import IconRainy from '@/shared/icons/Rainy.vue';
 import IconSunny from '@/shared/icons/Sunny.vue';
-import { useCapitalizeFirstLetter } from '@/shared/hooks';
+import { capitalize } from 'lodash';
 
 interface Props {
   type: keyof Icons | string
@@ -47,7 +47,7 @@ const icon = computed(() => {
     </div>
 
     <div class="description">
-      {{ useCapitalizeFirstLetter(description) }}
+      {{ capitalize(description) }}
     </div>
   </div>
 </template>
