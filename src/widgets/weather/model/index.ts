@@ -11,7 +11,7 @@ const DEFAULT_ID = 4930956;
 
 export class Weather {
   public isFindingCityWeather: boolean
-  public data: WeatherData | undefined
+  public data: WeatherData
   public selectedCities: SelectedCity[]
   public isNotFind: boolean
   private dataLayer: DataLayer
@@ -24,7 +24,7 @@ export class Weather {
     this.dataLayer = new DataLayer();
   }
 
-  async getParams () {
+  private async getParams () {
     if (this.selectedCities.length > 0) {
       return { id: this.selectedCities[0]?.id }
     }
@@ -48,7 +48,11 @@ export class Weather {
   public async getData() {
     const params = await this.getParams();
     const { data } = await this.dataLayer.getDataWeather(params);
-    this.data = data;
+    if (data) {
+      this.data = data;
+    } else {
+      console.log('Ошибка при загрузке данных');
+    }
   }
 
   public changeSelectedCities (values: SelectedCity[]) {
@@ -80,7 +84,7 @@ export class Weather {
     }
   }
 
-  resetIsNotFind () {
+  public resetIsNotFind () {
     this.isNotFind = false;
   }
 
@@ -100,7 +104,6 @@ export class Weather {
     if (status) {
       this.selectedCities = data;
     }
-
   }
 
   public setInLocalStorageSelectedCity () {

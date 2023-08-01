@@ -1,24 +1,24 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, reactive } from 'vue';
 import Header from './ui/Header.vue';
 import Settings from './ui/Settings/index.vue';
 import Main from './ui/Main.vue';
 import { Weather } from './model';
 import type { WeatherData, SelectedCity } from './types';
 
-const weather = ref(new Weather());
+const weather = reactive(new Weather());
 const isSettingActive = ref(false);
-const data = ref<WeatherData>(weather.value.data);
+const data = ref<WeatherData>(weather.data);
 
 const handleSettingsClick = () => isSettingActive.value = !isSettingActive.value;
 
 const fetchData = async () => {
-  await weather.value.getData();
-  data.value = weather.value.data;
+  await weather.getData();
+  data.value = weather.data;
 }
 
 onMounted(async () => {
-  weather.value.checkLocalStorage();
+  weather.checkLocalStorage();
   await fetchData();
 });
 
@@ -38,12 +38,12 @@ const headerName = computed(() => {
 })
 
 const handleChangeSelected = async (values: SelectedCity[]) => {
-  weather.value.changeSelectedCities(values);
+  weather.changeSelectedCities(values);
   await fetchData()
 };
-const handleDeleteSelected = (id: number) => weather.value.deleteSelectedCity(id);
-const handleInputCity = (city: string) => weather.value.findCity(city);
-const handleResetError = () => weather.value.resetIsNotFind();
+const handleDeleteSelected = (id: number) => weather.deleteSelectedCity(id);
+const handleInputCity = (city: string) => weather.findCity(city);
+const handleResetError = () => weather.resetIsNotFind();
 </script>
 
 <template>
