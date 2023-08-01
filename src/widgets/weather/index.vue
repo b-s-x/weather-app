@@ -4,46 +4,19 @@ import Header from './ui/Header.vue';
 import Settings from './ui/Settings/index.vue';
 import Main from './ui/Main.vue';
 import { Weather } from './model';
-import type { WeatherData, SelectedCity } from './types';
+import type { SelectedCity } from './types';
 
 const weather = reactive(new Weather());
 const isSettingActive = ref(false);
-const data = ref<WeatherData>(weather.data);
+const headerName = computed(() => weather.getHeaderName(isSettingActive.value));
 
+const handleChangeSelected = async (values: SelectedCity[]) => weather.changeSelectedCities(values);
 const handleSettingsClick = () => isSettingActive.value = !isSettingActive.value;
-
-const fetchData = async () => {
-  await weather.getData();
-  data.value = weather.data;
-}
-
-onMounted(async () => {
-  weather.checkLocalStorage();
-  await fetchData();
-});
-
-const headerName = computed(() => {
-  if (isSettingActive.value) {
-    return 'Settings';
-  }
-
-  const city = data.value.city;
-  const country = data.value.country
-
-  if (city && country) {
-    return `${city}, ${country}`
-  }
-
-  return '';
-})
-
-const handleChangeSelected = async (values: SelectedCity[]) => {
-  weather.changeSelectedCities(values);
-  await fetchData()
-};
 const handleDeleteSelected = (id: number) => weather.deleteSelectedCity(id);
 const handleInputCity = (city: string) => weather.findCity(city);
 const handleResetError = () => weather.resetIsNotFind();
+
+onMounted(async () => await weather.fetchData());
 </script>
 
 <template>
@@ -56,7 +29,7 @@ const handleResetError = () => weather.resetIsNotFind();
 
     <Main
       v-if="!isSettingActive"
-      :data="data"
+      :data="weather.data"
       :isFetching="weather?.isFetchingWeather"
     />
 

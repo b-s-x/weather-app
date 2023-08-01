@@ -44,6 +44,7 @@ export type WeatherDataResponse = {
 }
 
 export type WeatherData = {
+[x: string]: any
   city?: string
   country?: string
   description?: string
