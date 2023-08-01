@@ -1,38 +1,32 @@
-import { services } from "@/entities/Services";
 import { useCurrentGeoPosition } from '@/shared/hooks/index';
-import { useDewPoint } from "@/widgets/weather/model/hooks/index";
-import { LocalStorageManager } from "@/entities/LocalStorageManager/index";
+import { DataLayer } from '../data/index';
+
 import type {
-  WeatherDataResponse,
   WeatherData,
   SelectedCity,
-} from "./types";
+} from "../types";
 
 const KEY_SELECTED = 'SELECTED';
 const DEFAULT_ID = 4930956;
 
 export class Weather {
-  public isFetchingWeather: boolean
   public isFindingCityWeather: boolean
-  public data: WeatherData
+  public data: WeatherData | undefined
   public selectedCities: SelectedCity[]
   public isNotFind: boolean
-  private localStorageManager: LocalStorageManager
+  private dataLayer: DataLayer
 
   constructor () {
-    this.isFetchingWeather = true;
     this.data = {};
     this.isNotFind = false;
     this.isFindingCityWeather = false;
-    this.localStorageManager = new LocalStorageManager();
     this.selectedCities = [];
+    this.dataLayer = new DataLayer();
   }
 
   async getParams () {
     if (this.selectedCities.length > 0) {
-      return {
-        id: this.selectedCities[0]?.id,
-      }
+      return { id: this.selectedCities[0]?.id }
     }
 
     const { latitude, longitude } = await useCurrentGeoPosition();
@@ -47,32 +41,14 @@ export class Weather {
     return { id: DEFAULT_ID };
   }
 
-  public async getData() {
-    const params = await this.getParams();
-    try {
-      this.isFetchingWeather = true;
-      const { data } = await services.openweather.getWeather(params);
-      this.parseData(data);
-      this.isFetchingWeather = false;
-    } catch(err) {
-      console.error(err);
-    }
+  get isFetchingWeather () {
+    return this.dataLayer.isFetchingWeather
   }
 
-  parseData (data: WeatherDataResponse) {
-    this.data = {
-      city: data?.name,
-      country: data?.sys?.country,
-      description: data?.weather[0]?.description,
-      type: data?.weather[0]?.main,
-      windSpeed: data?.wind?.speed,
-      pressure: data?.main?.pressure,
-      humidity: data?.main?.humidity,
-      visibility: data?.visibility,
-      dew: useDewPoint(data?.main?.temp, data?.main?.humidity),
-      temp: data?.main?.temp,
-      id: data?.id,
-    }
+  public async getData() {
+    const params = await this.getParams();
+    const { data } = await this.dataLayer.getDataWeather(params);
+    this.data = data;
   }
 
   public changeSelectedCities (values: SelectedCity[]) {
@@ -86,10 +62,7 @@ export class Weather {
   }
 
   public addSelectedCity (data: SelectedCity) {
-    this.selectedCities = [
-      ...this.selectedCities,
-      data,
-    ];
+    this.selectedCities = [ ...this.selectedCities, data];
   }
 
   public async findCity (city: string) {
@@ -97,16 +70,13 @@ export class Weather {
       return;
     }
     this.resetIsNotFind();
-    try {
-      this.isFindingCityWeather = true;
-      const { data } = await services.openweather.getWeather({ q: city });
-      this.parseData(data);
+    this.isFindingCityWeather = true;
+    const { data } = await this.dataLayer.getDataWeather({ q: city });
+    this.isFindingCityWeather = false;
+    if (data) {
       this.addToSelected(data);
-    } catch(err) {
-      this.isNotFind = true;
-      console.error(err);
-    } finally {
-      this.isFindingCityWeather = false;
+    } else {
+      console.log('Ошибка при добавлении в избранное');
     }
   }
 
@@ -114,10 +84,10 @@ export class Weather {
     this.isNotFind = false;
   }
 
-  public addToSelected (data: WeatherDataResponse) {
+  public addToSelected (data: WeatherData) {
     const value: SelectedCity = {
-      city: data?.name,
-      country: data?.sys?.country,
+      city: data?.city,
+      country: data?.country,
       id: data?.id,
     }
 
@@ -126,44 +96,15 @@ export class Weather {
   }
 
   public checkLocalStorage() {
-    this.parseFromLocalStorageSelectedCity()
-  }
-
-  setInLocalStorageSelectedCity () {
-    this.localStorageManager.set(KEY_SELECTED, this.selectedCities)
-  }
-
-  parseFromLocalStorageSelectedCity () {
-    const data = this.localStorageManager.get(KEY_SELECTED);
-    const status = this.checkValidationData(data);
-
+    const { status, data } = this.dataLayer.parseFromLocalStorageSelectedCity(KEY_SELECTED);
     if (status) {
       this.selectedCities = data;
     }
+
   }
 
-  checkValidationData (data: SelectedCity) {
-    if (!Array.isArray(data)) {
-      return false;
-    }
-
-    if (data.length > 0) {
-      const item = data[0];
-
-      if (!('id' in item)) {
-        return false;
-      }
-
-      if (!('city' in item)) {
-        return false;
-      }
-
-      if (!('country' in item)) {
-        return false;
-      }
-    }
-
-    return true;
+  public setInLocalStorageSelectedCity () {
+    this.dataLayer.setInLocalStorageSelectedCity(KEY_SELECTED, this.selectedCities)
   }
 }
 

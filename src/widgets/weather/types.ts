@@ -65,7 +65,7 @@ export type ParamsWeatherData = {
 };
 
 export type SelectedCity = {
-  id: number
-  city: string,
-  country: string,
+  id?: number
+  city?: string,
+  country?: string,
 };
