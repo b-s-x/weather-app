@@ -4,7 +4,7 @@ import Header from './ui/Header.vue';
 import Settings from './ui/Settings/index.vue';
 import Main from './ui/Main.vue';
 import { Weather } from './model';
-import type { WeatherData, SelectedCity } from './model/types';
+import type { WeatherData, SelectedCity } from './types';
 
 const weather = ref(new Weather());
 const isSettingActive = ref(false);
