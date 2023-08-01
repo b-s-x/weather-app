@@ -58,6 +58,7 @@ export class Weather {
   public changeSelectedCities (values: SelectedCity[]) {
     this.selectedCities = values;
     this.setInLocalStorageSelectedCity();
+    this.fetchData()
   }
 
   public deleteSelectedCity (deleteId: number) {
@@ -108,6 +109,23 @@ export class Weather {
 
   public setInLocalStorageSelectedCity () {
     this.dataLayer.setInLocalStorageSelectedCity(KEY_SELECTED, this.selectedCities)
+  }
+
+  async fetchData () {
+    this.checkLocalStorage();
+    await this.getData()
+  }
+
+  public getHeaderName(isSettingActive: boolean) {
+    if (isSettingActive) {
+      return 'Settings';
+    }
+    const city = this.data.city;
+    const country = this.data.country
+    if (city && country) {
+      return `${city}, ${country}`
+    }
+    return '';
   }
 }
 
