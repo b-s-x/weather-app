@@ -5,7 +5,6 @@ import Settings from './ui/Settings/index.vue';
 import Main from './ui/Main.vue';
 import { Weather } from './model';
 import type { WeatherData, SelectedCity } from './model/types';
-import { useHeaderName } from './model/hooks/index';
 
 const weather = ref(new Weather());
 const isSettingActive = ref(false);
@@ -23,7 +22,20 @@ onMounted(async () => {
   await fetchData();
 });
 
-const headerName = computed(() => useHeaderName(isSettingActive.value, data.value.city, data.value.country))
+const headerName = computed(() => {
+  if (isSettingActive.value) {
+    return 'Settings';
+  }
+
+  const city = data.value.city;
+  const country = data.value.country
+
+  if (city && country) {
+    return `${city}, ${country}`
+  }
+
+  return '';
+})
 
 const handleChangeSelected = async (values: SelectedCity[]) => {
   weather.value.changeSelectedCities(values);
