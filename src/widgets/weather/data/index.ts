@@ -30,7 +30,7 @@ export class DataLayer {
     }
   }
 
-  parseData (data: WeatherDataResponse) {
+  private parseData (data: WeatherDataResponse) {
     return {
       city: data?.name,
       country: data?.sys?.country,
@@ -46,7 +46,7 @@ export class DataLayer {
     }
   }
 
-  checkValidationData (data: SelectedCity) {
+  private checkValidationData (data: SelectedCity) {
     if (!Array.isArray(data)) {
       return false;
     }
@@ -70,13 +70,13 @@ export class DataLayer {
     return true;
   }
 
-  parseFromLocalStorageSelectedCity (key: string) {
+  public parseFromLocalStorageSelectedCity (key: string) {
     const data = this.localStorageManager.get(key);
     const status = this.checkValidationData(data);
     return { status, data };
   }
 
-  setInLocalStorageSelectedCity (key: string, data: any) {
+  public setInLocalStorageSelectedCity (key: string, data: any) {
     this.localStorageManager.set(key, data)
   }
 }
