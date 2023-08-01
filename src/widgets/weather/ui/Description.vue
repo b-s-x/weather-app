@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang='ts'>
 import { computed } from 'vue';
 import IconCloudy from '@/shared/icons/Cloudy.vue';
 import IconRainy from '@/shared/icons/Rainy.vue';

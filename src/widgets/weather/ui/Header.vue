@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang='ts'>
 import IconSetting from '@/shared/icons/Setting.vue';
 import IconTimes from '@/shared/icons/Times.vue';
 import { Spinner } from '@/shared/components';

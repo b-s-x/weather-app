@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang='ts'>
 import { Spinner, SpinnerTypes } from '@/shared/components';
 import Description from './Description.vue';
 import Info from './Info.vue';

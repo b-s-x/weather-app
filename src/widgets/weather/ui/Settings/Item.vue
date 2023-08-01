@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang='ts'>
 import IconLines from '@/shared/icons/Lines.vue';
 import IconTrash from '@/shared/icons/Trash.vue';
 import { Events } from '../events';

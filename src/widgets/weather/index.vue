@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang='ts'>
 import { ref, onMounted, computed, reactive } from 'vue';
 import Header from './ui/Header.vue';
 import Settings from './ui/Settings/index.vue';

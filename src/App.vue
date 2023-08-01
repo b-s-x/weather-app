@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang='ts'>
 import Weather from '@/widgets/weather/index.vue';
 
 </script>

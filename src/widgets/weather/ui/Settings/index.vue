@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang='ts'>
 import { SelectedCity } from '@/widgets/weather/types';
 import Add from './Add.vue';
 import Selections from './Selections.vue';

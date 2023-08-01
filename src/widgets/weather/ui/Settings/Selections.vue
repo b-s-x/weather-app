@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang='ts'>
 import draggable from 'vuedraggable';
 import { SelectedCity } from '@/widgets/weather/types';
 import Item from './Item.vue';

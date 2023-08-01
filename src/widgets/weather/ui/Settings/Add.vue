@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang='ts'>
 import { debounce } from 'lodash';
 import { Spinner, SpinnerTypes } from '@/shared/components';
 import { Events } from '../events';

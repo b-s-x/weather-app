@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang='ts'>
 import { computed } from 'vue';
 import IconPressure from '@/shared/icons/Pressure.vue';
 import IconNavigation from '@/shared/icons/Navigation.vue';
