@@ -1,9 +1,9 @@
-<script setup lang="ts">
+<script setup lang='ts'>
 import { debounce } from 'lodash';
 import { Spinner, SpinnerTypes } from '@/shared/components';
 import { Events } from '../events';
 
-defineProps<{
+const props = defineProps<{
   placeholder?: string
   autofocus?: boolean
   isNotFind?: boolean
@@ -36,9 +36,9 @@ const handleResetError = () => emit(Events.ResetErrorFindCity);
         id="city"
         type="text"
         class="input"
-        :disabled="isFindingCityWeather"
-        :autofocus="autofocus"
-        :placeholder="placeholder"
+        :disabled="props.isFindingCityWeather"
+        :autofocus="props.autofocus"
+        :placeholder="props.placeholder"
         @keydown.enter="handleInput"
         @input="handleInput"
         @focus="handleResetError"
@@ -46,13 +46,13 @@ const handleResetError = () => emit(Events.ResetErrorFindCity);
       />
 
       <Spinner
-        v-if="isFindingCityWeather"
+        v-if="props.isFindingCityWeather"
         :type="SpinnerTypes.Small"
       />
     </div>
 
     <div
-      v-if="isNotFind"
+      v-if="props.isNotFind"
       class="error"
     >
       City not found, please try again

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang='ts'>
 import { computed } from 'vue';
 import IconCloudy from '@/shared/icons/Cloudy.vue';
 import IconRainy from '@/shared/icons/Rainy.vue';
@@ -42,12 +42,12 @@ const icon = computed(() => {
         <component :is="icon" class="icon" />
       </div>
       <div class="term">
-        {{ `${term ? term?.toFixed(0) : '-'}°C`}}
+        {{ `${props.term ? props.term?.toFixed(0) : '-'}°C`}}
       </div>
     </div>
 
     <div class="description">
-      {{ capitalize(description) }}
+      {{ capitalize(props.description) }}
     </div>
   </div>
 </template>

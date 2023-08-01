@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang='ts'>
 import IconSetting from '@/shared/icons/Setting.vue';
 import IconTimes from '@/shared/icons/Times.vue';
 import { Spinner } from '@/shared/components';
@@ -9,7 +9,7 @@ interface Props {
   isSettingActive: boolean
 }
 
-defineProps<Props>();
+const props = defineProps<Props>();
 
 const emit = defineEmits<{ (e: Events.SettingClick): void }>();
 
@@ -21,7 +21,7 @@ const handleSettingsClick = () => emit(Events.SettingClick);
   <div class="header">
     <div>
       <span v-if="name">
-        {{ name }}
+        {{ props.name }}
       </span>
       <Spinner v-else />
     </div>
@@ -30,7 +30,7 @@ const handleSettingsClick = () => emit(Events.SettingClick);
       @click="handleSettingsClick"
     >
       <IconTimes
-        v-if="isSettingActive"
+        v-if="props.isSettingActive"
         class="setting_icon_times"
       />
       <IconSetting

@@ -1,11 +1,11 @@
-import { useDewPoint } from "@/widgets/weather/model/hooks/index";
-import { services } from "@/entities/Services";
-import { LocalStorageManager } from "@/entities/LocalStorageManager/index";
+import { useDewPoint } from '@/widgets/weather/model/hooks/index';
+import { services } from '@/entities/Services';
+import { LocalStorageManager } from '@/entities/LocalStorageManager/index';
 import type {
   WeatherDataResponse,
   ParamsWeatherData,
   SelectedCity,
-} from "../types";
+} from '../types';
 
 export class DataLayer {
   public isFetchingWeather: boolean

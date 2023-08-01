@@ -16,9 +16,10 @@ export const useCurrentGeoPosition = async () => {
 
     latitude = position?.coords?.latitude;
     longitude = position?.coords?.longitude;
+
+    return { latitude, longitude, status: true };
   } catch (error: any) {
     console.error('Ошибка при получении геолокации:', error?.message);
+    return { status: false };
   }
-
-  return { latitude, longitude };
 };

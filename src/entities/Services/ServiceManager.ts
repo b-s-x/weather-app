@@ -1,4 +1,4 @@
-import { ApiClient } from "@/entities/Api";
+import { ApiClient } from '@/entities/Api';
 import { OpenWeatherService } from './services/openweather';
 
 export class ServicesManager {
